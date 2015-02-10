@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+
+    <script>
+        var app=angular.module('myApp', ['ngRoute']).config(function($routeProvider){
+            $routeProvider.when('/', {
+                templateUrl: 'template/filter.html',
+                controller: 'FlickrController'
+            }).otherwise({
+                redirectTo: '/'
+            });
+        }).filter('startFrom', function() {
+            return function(input, start) {
+                start = +start; //parse to int
+                return input.slice(start);
+            }
+        }).controller('FlickrController',function ($scope) {
+            $scope.currentPage = 0;
+            $scope.pageSize = 10;
+            $scope.data = [];
+            $scope.numberOfPages=function(){
+                return Math.ceil($scope.data.length/$scope.pageSize);
+            }
+            for (var i=0; i<45; i++) {
+                $scope.data.push("Item "+i);
+            }
+        });
+
+
+
+    </script>
+</head>
+<body>
+    <div ng-view=""></div>
+</body>
+</html>

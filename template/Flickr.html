@@ -1,0 +1,32 @@
+<h1>FLICKR</h1>
+<input type="text" ng-model="location" placeholder="location">
+<button id="search" ng-click="searchByLocation($event)">SearchByLocation</button>
+        <br>
+
+<!--<ul>
+    <li ng-repeat="photo in data.query.results.photo | startFrom:currentPage*pageSize | limitTo:pageSize">{{photo}}</li>
+</ul>-->
+
+<div ng-repeat="photo in data.query.results.photo | startFrom:currentPage*pageSize | limitTo:pageSize">
+    <!--<span>farm:{{photo.farm}}</span>
+    <span>server:{{photo.server}}</span>
+    <span>id:{{photo.id}}</span>
+    <span>secret:{{photo.secret}}</span>-->
+    <!--<img ng-src="https://farm" + {{photo.farm}} + '.static.flickr.com/' + {{photo.server}} + '/' + {{photo.id}} + '_' + {{photo.secret}} + '.jpg' />-->
+    <img src="https://farm{{photo.farm}}.static.flickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg"       alt="{{photo.title}}" />
+</div>
+<!--<img src="https://farm{$farm}.static.flickr.com/{$server}/{$id}_{$secret}.jpg"       alt="{$title}" />-->
+<!--<img src="https://farm8.static.flickr.com/7573/15617065574_8603eb39b8.jpg"       alt="{$title}" />-->
+<!--farm:8 server:7573 id:15617065574 secret:8603eb39b8-->
+
+<div ng-show="data">
+    <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+        Previous
+    </button>
+    {{currentPage+1}}/{{numberOfPages()}}
+    <button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+        Next
+    </button>
+    <br>
+    <span>The total length of result is: {{data.length}}</span>
+</div>

@@ -1,0 +1,19 @@
+{
+  "name": "APIServices",
+  "version": "0.0.0",
+  "authors": [
+    "Alex Feng <da.feng@nyu.edu>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.8",
+    "angular-route": "~1.3.8"
+  }
+}

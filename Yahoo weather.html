@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/angular/angular.js"></script>
+    <script>
+        angular.module('myApp',[]).factory('YahooWeatherService',function($http){
+            return{
+                makeAjaxCall:function(city,state,callback){
+                    $http.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20'
+                        + 'where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22'
+                        + city + '%2C%20' + state +
+                        '%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys'
+                    ).success(function(data){
+                        callback(data);
+                    })
+                }
+            }
+        }).controller('WeatherController',function(YahooWeatherService,$scope){
+            $scope.makeAjaxCall = function(){
+                YahooWeatherService.makeAjaxCall($scope.city,$scope.state,function(data){
+                    $scope.data = data;
+                    document.getElementById('text').innerHTML = data.query.results.channel.item.description;
+                    console.log(data.query.results.channel.item.condition.text);
+                })
+            }
+        });
+
+    </script>
+</head>
+<body ng-controller="WeatherController">
+    <div>
+        <input type="text" ng-model="city" placeholder="city">
+        <input type="text" ng-model="state" placeholder="state">
+        <button id="submit" ng-click="makeAjaxCall($event)">Submit</button>
+    </div>
+    <div id="text"></div>
+    <!--{{data.query.results.channel.item.description}}-->
+</body>
+</html>
